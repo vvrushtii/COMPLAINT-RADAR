@@ -1,45 +1,76 @@
-# 📡 Complaint Radar — "What should this company fix first?"
+# 📡 Complaint Radar — customer-complaint intelligence for Indian delivery apps
 
 **🔗 Live demo: https://complaint-radar-8xsgbewhv94vvhhrxmrcwx.streamlit.app/**
 
-An end-to-end data project that turns thousands of **real, live Google Play reviews** of a food-delivery app
-into a ranked, business-ready fix list.
+An automated pipeline that collects **live Google Play reviews of Swiggy, Zomato, Blinkit and Zepto every day**,
+understands them (including Hindi/Hinglish), and answers three business questions:
 
-**Key finding (Swiggy, about 1,160 reviews, Nov 2026):** average rating is about 2.4★. Customer support, refund problems
-and late delivery are the top three drivers of low ratings. Fixing them could lift the average by roughly
-0.7★ (see dashboard for exact numbers; they change as new reviews arrive).
+1. **What should each company fix first?** Complaint themes ranked by estimated rating impact, with 95% confidence ranges.
+2. **Who is losing customers on what?** A like-for-like competitor benchmark.
+3. **Is something breaking right now?** Statistical spike alerts on sudden jumps in a complaint theme.
 
-## The business problem
-App teams get thousands of reviews and no time to read them. Which complaint, if solved, would improve the
-rating the most? Counting complaints isn't enough: a rare but furious issue and a common mild one need to be
-compared fairly.
+## Findings (Nov 2026, ~9,000 reviews with real complaint text across 4 apps)
+- **Customer support and refund problems are a top-3 rating drag for every app**, not just delivery speed.
+- **Swiggy:** customer support (~0.28★ potential gain) and late delivery (~0.28★) are statistically tied; refunds follow (~0.21★).
+- **Zepto:** support is the clear #1 (~0.35★), then refunds (~0.25★) and wrong/missing items (~0.17★).
+- Confidence ranges matter: where two bars' ranges overlap, the dashboard tells you not to rank them.
 
-## How it works (pipeline)
-| Step | File | What happens | Skill shown |
-|---|---|---|---|
-| 1. Collect | `fetch_reviews.py` | Pulls newest reviews live from Google Play | Data acquisition, APIs |
-| 2. Clean + sentiment | `analyze.py` | Lower-case, remove noise, VADER sentiment score per review | Text preprocessing, NLP |
-| 3. Themes | `analyze.py` | 11-theme keyword taxonomy (support, refunds, delay...) | Domain modelling |
-| 4. Impact score | `analyze.py` | `share of reviews × (rating of others − rating of theme)` = rating gain if fixed | Business metric design |
-| 5. Discovery | `analyze.py` | TF-IDF + KMeans on 1–2★ reviews finds unknown topics | Unsupervised ML |
-| 6. Dashboard | `app.py` | Streamlit app: fix-first list, trends, real quotes, search, one-click live refresh | Data storytelling, deployment |
+*(Numbers change daily as new reviews arrive. Check the live app for current values.)*
 
-## Run it
+## What makes this more than a dashboard
+| Piece | What it does | Where |
+|---|---|---|
+| Automated data | GitHub Actions runs every day, merges new reviews into a growing history (no manual downloads) | `.github/workflows/daily.yml`, `radar/collect.py` |
+| Multilingual NLP | Sentence embeddings (`paraphrase-multilingual-MiniLM`) understand Hinglish like "refund nahi mila" | `radar/features.py` |
+| Measured models | Evaluated against baselines on held-out / hand-labelled data (below) | `radar/models.py`, `reports/evaluation.json` |
+| Honest uncertainty | Bootstrap 95% confidence intervals on every impact number | `radar/analyze.py` |
+| Early warning | Two-proportion z-test: last 3 days vs. previous 3 weeks, per app and theme | `radar/analyze.py` |
+
+## Model results (measured, not assumed)
+**Sentiment** (4,793 held-out reviews, labels from star ratings):
+| Model | Accuracy | Macro F1 |
+|---|---|---|
+| Multilingual embedding classifier (ours) | **0.932** | **0.917** |
+| VADER (English rule-based baseline) | 0.852 | 0.823 |
+
+**Complaint-theme detection** (180 hand-labelled reviews, 5-fold cross-validated):
+| Method | Micro F1 | Macro F1 |
+|---|---|---|
+| A. Keyword rules | 0.688 | 0.646 |
+| B. Zero-shot embeddings | 0.464 | 0.398 |
+| C. Supervised: embeddings + rules (used) | **0.701** | **0.667** |
+
+**Honest reading:** the embedding model is a clear win for *sentiment*. For *themes*, C beats the keyword rules by only about 0.01 F1,
+which is within noise on 180 examples, and zero-shot did poorly. Rules are still better on a few themes (e.g. food quality).
+The multilingual model's main benefit is handling Hinglish; a bigger labelled set is the next step.
+
+## Pipeline
+```
+radar.collect  ->  data/reviews.csv        (Google Play, 4 apps, merged + de-duplicated, last 90 days)
+radar.models   ->  models/*.joblib, reports/evaluation.json   (train + evaluate; run when labels change)
+radar.analyze  ->  data/analyzed.csv, impact.csv, alerts.csv  (score every review, impact + CIs, spikes)
+app.py         ->  Streamlit dashboard (7 tabs)
+```
+
+## Run locally
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\activate
-pip install -r requirements.txt
-python fetch_reviews.py in.swiggy.android 3000
-python analyze.py data/reviews_in_swiggy_android.csv
+pip install -r requirements-pipeline.txt
+python -m radar.collect --backfill      # first run: ~5,000 reviews per app
+python -m radar.models                  # train + evaluate (~5 min on a laptop)
+python -m radar.analyze
 streamlit run app.py
 ```
-Try another app: `python fetch_reviews.py com.application.zomato 3000`, then analyse it. It appears in the dropdown.
+Add a company by adding one line to `APPS` in `radar/config.py`.
 
-## Limitations (say these in interviews, it shows maturity)
-- Keyword themes can miss unusual wording; Hindi/Hinglish reviews are only partly captured (the KMeans step found a Hinglish cluster).
-- VADER is rule-based and English-focused. A next step is a multilingual transformer model.
-- The rating-gain score is an estimate from correlation, not proof of causation.
-- Google Play reviews skew negative (unhappy users write more), so absolute ratings understate satisfaction.
+## Limitations (stated up front)
+- **Gold labels were assigned by an AI assistant**, not independent human annotators, and the set is small (180) and complaint-heavy. Spot-check `data/gold_labels.csv` before relying on the theme scores.
+- Sentiment labels come from star ratings, which are noisy (a 1★ review can praise the product).
+- About 55% of collected reviews are 1–2 word reviews ("good app") and are excluded from analysis.
+- The impact score shows association, not proven cause. Play Store reviews skew negative, so absolute ratings understate satisfaction.
+- Rare themes (<5 labelled examples, e.g. offers) fall back to keyword rules.
+- The history window is short (Blinkit ~5 days at first backfill), so early cross-app comparisons use only the shared dates; the daily job widens it over time.
 
-## Next steps
-Multilingual sentiment model · LLM-generated summaries per theme · scheduled daily refresh with GitHub Actions · alerting on theme spikes.
+## Tech
+Python · pandas · scikit-learn · fastembed (ONNX) · Streamlit · Plotly · GitHub Actions
