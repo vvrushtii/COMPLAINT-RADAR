@@ -1,0 +1,62 @@
+{
+  "sentiment": {
+    "n_test": 4793,
+    "embedding_model_accuracy": 0.932,
+    "embedding_model_f1": 0.917,
+    "vader_accuracy": 0.852,
+    "vader_f1": 0.823
+  },
+  "themes": {
+    "n_gold": 180,
+    "positives_per_theme": {
+      "Late / slow delivery": 47,
+      "Order cancelled by app": 12,
+      "Refund / money issues": 26,
+      "Customer support": 40,
+      "Wrong / missing items": 24,
+      "Food / product quality": 29,
+      "High fees / pricing": 29,
+      "App bugs / login / crash": 8,
+      "Delivery partner conduct": 15,
+      "Offers / membership": 4
+    },
+    "A_keyword_rules": {
+      "micro_f1": 0.688,
+      "macro_f1": 0.646
+    },
+    "B_zero_shot": {
+      "micro_f1": 0.464,
+      "macro_f1": 0.398,
+      "threshold": 0.41
+    },
+    "C_supervised_embeddings": {
+      "micro_f1": 0.701,
+      "macro_f1": 0.667,
+      "threshold": 0.425
+    },
+    "per_theme_f1_C": {
+      "Late / slow delivery": 0.78,
+      "Order cancelled by app": 0.79,
+      "Refund / money issues": 0.71,
+      "Customer support": 0.71,
+      "Wrong / missing items": 0.79,
+      "Food / product quality": 0.62,
+      "High fees / pricing": 0.8,
+      "App bugs / login / crash": 0.27,
+      "Delivery partner conduct": 0.47,
+      "Offers / membership": 0.73
+    },
+    "per_theme_f1_A": {
+      "Late / slow delivery": 0.68,
+      "Order cancelled by app": 0.76,
+      "Refund / money issues": 0.69,
+      "Customer support": 0.73,
+      "Wrong / missing items": 0.74,
+      "Food / product quality": 0.72,
+      "High fees / pricing": 0.75,
+      "App bugs / login / crash": 0.14,
+      "Delivery partner conduct": 0.53,
+      "Offers / membership": 0.73
+    }
+  }
+}

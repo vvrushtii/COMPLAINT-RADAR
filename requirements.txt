@@ -1,6 +1,7 @@
-google-play-scraper==1.2.7
+numpy==2.5.5
 pandas==3.1.1
 plotly==7.1.0
-scikit-learn==1.9.1
 streamlit==1.67.0
-vaderSentiment==3.3.2
+scikit-learn==1.9.1
+joblib==1.6.0
+scipy==1.18.1

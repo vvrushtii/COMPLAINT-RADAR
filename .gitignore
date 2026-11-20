@@ -1,3 +1,6 @@
 .venv/
 __pycache__/
 *.pyc
+data/embeddings.npz
+data/gold_sample.csv
+data/gold_sample.txt
