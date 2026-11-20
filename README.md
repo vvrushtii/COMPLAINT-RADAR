@@ -44,6 +44,13 @@ understands them (including Hindi/Hinglish), and answers three business question
 which is within noise on 180 examples, and zero-shot did poorly. Rules are still better on a few themes (e.g. food quality).
 The multilingual model's main benefit is handling Hinglish; a bigger labelled set is the next step.
 
+## Power BI + SQL layer
+The same analysis is also exported as a **star schema** (dimension, fact and bridge tables) for BI tools and SQL:
+- `powerbi/data/*.csv`, `powerbi/measures.dax`, `powerbi/ComplaintRadar-Dark.json`, `powerbi/BUILD_GUIDE.md`: a Power BI data model with DAX measures and a dark theme.
+- `sql/queries.sql`: nine analytical queries (CTEs, window functions, ranking, rolling averages, spike detection). `sql/run_queries.py` runs them and
+  **cross-checks the SQL impact numbers against the Python pipeline (all 40 app × theme rows match)**.
+- Rebuild the exports with `python -m radar.export_powerbi`.
+
 ## Pipeline
 ```
 radar.collect  ->  data/reviews.csv        (Google Play, 4 apps, merged + de-duplicated, last 90 days)

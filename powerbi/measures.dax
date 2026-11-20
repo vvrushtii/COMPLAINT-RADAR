@@ -1,0 +1,139 @@
+// =====================================================================================
+// COMPLAINT RADAR : DAX MEASURES
+// Create an empty table called  _Measures  (Home > Enter data > name it _Measures > Load),
+// then add each measure below with  Modeling > New measure  (or paste into Tabular Editor).
+// Table names refer to the CSVs in powerbi/data/.  Relationships are listed in BUILD_GUIDE.md.
+// =====================================================================================
+
+
+// ---------- 1. HEADLINE KPIs ----------------------------------------------------------
+
+Total Reviews = COUNTROWS ( fact_reviews )
+
+Avg Rating = AVERAGE ( fact_reviews[rating] )
+
+1-Star % =
+DIVIDE (
+    CALCULATE ( COUNTROWS ( fact_reviews ), fact_reviews[rating] = 1 ),
+    [Total Reviews]
+)
+
+Negative % =
+DIVIDE (
+    CALCULATE ( COUNTROWS ( fact_reviews ), fact_reviews[sentiment_label] = "Negative" ),
+    [Total Reviews]
+)
+
+Avg Sentiment = AVERAGE ( fact_reviews[sentiment_score] )
+
+Latest Review = MAX ( fact_reviews[review_time] )
+
+
+// ---------- 2. THEMES (many-to-many through bridge_review_theme) ----------------------
+// A review can mention several themes, so themes connect through a bridge table.
+
+Theme Mentions = COUNTROWS ( bridge_review_theme )
+
+Theme Share % = DIVIDE ( [Theme Mentions], [Total Reviews] )
+
+// reviews that mention the theme currently in filter context (the filter is pushed from the bridge into fact_reviews)
+Theme Reviews =
+CALCULATE (
+    COUNTROWS ( fact_reviews ),
+    CROSSFILTER ( bridge_review_theme[review_key], fact_reviews[review_key], BOTH )
+)
+
+Theme Rating Sum =
+CALCULATE (
+    SUM ( fact_reviews[rating] ),
+    CROSSFILTER ( bridge_review_theme[review_key], fact_reviews[review_key], BOTH )
+)
+
+Avg Rating (Theme) = DIVIDE ( [Theme Rating Sum], [Theme Reviews] )
+
+// Use as a VISUAL-LEVEL FILTER ("Show Review is 1") on a table of individual reviews, so that a theme slicer
+// keeps only the reviews that mention that theme.
+Show Review = IF ( CALCULATE ( COUNTROWS ( bridge_review_theme ) ) > 0, 1 )
+
+// average rating of every review that does NOT mention the theme
+Avg Rating (Other) =
+DIVIDE (
+    SUM ( fact_reviews[rating] ) - [Theme Rating Sum],
+    [Total Reviews] - [Theme Reviews]
+)
+
+
+// ---------- 3. BUSINESS IMPACT : "what should they fix first?" ------------------------
+// Rating gain = share of reviews in the theme x how much lower their rating is than everyone else's.
+// (Same formula as the Python pipeline and sql/queries.sql; verified to match on all 40 app x theme rows.)
+
+Rating Gap = MAX ( [Avg Rating (Other)] - [Avg Rating (Theme)], 0 )
+
+Rating Gain if Fixed = [Theme Share %] * [Rating Gap]
+
+Fix Priority =
+IF (
+    [Theme Reviews] >= 10,
+    RANKX ( ALLSELECTED ( dim_theme[theme_name] ), [Rating Gain if Fixed], , DESC, DENSE )
+)
+
+#1 Problem =
+VAR top1 =
+    TOPN ( 1, ALLSELECTED ( dim_theme[theme_name] ), [Rating Gain if Fixed], DESC )
+RETURN
+    CONCATENATEX ( top1, dim_theme[theme_name], ", " )
+
+#1 Problem Gain =
+MAXX ( ALLSELECTED ( dim_theme[theme_name] ), [Rating Gain if Fixed] )
+
+
+// ---------- 4. PRE-COMPUTED CONFIDENCE INTERVALS (from the Python bootstrap) ----------
+// Use these for the error bars. Filter to ONE app (slicer) so the values are not summed across apps.
+
+Gain (Pipeline) = SUM ( fact_impact[gain] )
+Gain CI Low     = SUM ( fact_impact[gain_lo] )
+Gain CI High    = SUM ( fact_impact[gain_hi] )
+CI Half-Width   = ( [Gain CI High] - [Gain CI Low] ) / 2
+
+
+// ---------- 5. TRENDS -----------------------------------------------------------------
+
+Rolling 7D Avg Rating =
+CALCULATE (
+    [Avg Rating],
+    DATESINPERIOD ( dim_date[date], MAX ( dim_date[date] ), -7, DAY )
+)
+
+Reviews Last 7D =
+CALCULATE (
+    [Total Reviews],
+    DATESINPERIOD ( dim_date[date], MAX ( dim_date[date] ), -7, DAY )
+)
+
+Theme Share Rolling 7D =
+CALCULATE (
+    [Theme Share %],
+    DATESINPERIOD ( dim_date[date], MAX ( dim_date[date] ), -7, DAY )
+)
+
+
+// ---------- 6. SPIKE ALERTS -----------------------------------------------------------
+
+Active Spikes =
+CALCULATE ( COUNTROWS ( fact_alerts ), fact_alerts[is_spike] = TRUE () )
+
+Spike Status =
+IF ( [Active Spikes] > 0, "🚨 " & [Active Spikes] & " active spike(s)", "✅ No spikes detected" )
+
+Max Change (pp) = MAX ( fact_alerts[change_pp] )
+
+
+// ---------- 7. MODEL QUALITY ----------------------------------------------------------
+
+Model Score = AVERAGE ( model_results[value] )
+
+
+// ---------- FORMAT STRINGS (set in the Measure tools ribbon) --------------------------
+// Avg Rating, Avg Rating (Theme/Other) -> Decimal, 2 places          1-Star %, Negative %, Theme Share % -> Percentage, 1 place
+// Rating Gain if Fixed, Gain (Pipeline), CI -> Decimal, 3 places     Total Reviews, Reviews Last 7D -> Whole number, thousands separator
+// Rolling 7D Avg Rating -> Decimal, 2 places                          Model Score -> Decimal, 3 places

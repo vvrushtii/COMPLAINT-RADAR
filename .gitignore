@@ -4,3 +4,4 @@ __pycache__/
 data/embeddings.npz
 data/gold_sample.csv
 data/gold_sample.txt
+powerbi/radar.db

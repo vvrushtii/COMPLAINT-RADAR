@@ -1,0 +1,11 @@
+﻿theme_key,theme_name,theme_group
+1,Late / slow delivery,Operations
+2,Order cancelled by app,Operations
+3,Refund / money issues,Money
+4,Customer support,Service
+5,Wrong / missing items,Operations
+6,Food / product quality,Product
+7,High fees / pricing,Money
+8,App bugs / login / crash,Technology
+9,Delivery partner conduct,Operations
+10,Offers / membership,Money

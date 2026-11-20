@@ -1,0 +1,11 @@
+﻿task,model,metric,value
+Sentiment,Multilingual embedding classifier,Accuracy,0.932
+Sentiment,Multilingual embedding classifier,Macro F1,0.917
+Sentiment,VADER baseline,Accuracy,0.852
+Sentiment,VADER baseline,Macro F1,0.823
+Themes,Keyword rules,Micro F1,0.688
+Themes,Keyword rules,Macro F1,0.646
+Themes,Zero-shot embeddings,Micro F1,0.464
+Themes,Zero-shot embeddings,Macro F1,0.398
+Themes,Supervised (embeddings + rules),Micro F1,0.701
+Themes,Supervised (embeddings + rules),Macro F1,0.667
