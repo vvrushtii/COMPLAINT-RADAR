@@ -1,0 +1,12 @@
+theme,reviews,share_pct,avg_rating,pct_1_star,avg_sentiment,potential_rating_gain
+Customer support,208,17.9,1.06,97.6,-0.47,0.292
+Refund / money issues,166,14.3,1.17,93.4,-0.41,0.205
+Late / slow delivery,169,14.5,1.29,85.8,-0.38,0.189
+Order cancelled by app,106,9.1,1.07,94.3,-0.42,0.134
+Delivery partner conduct,93,8.0,1.37,87.1,-0.4,0.09
+High fees / pricing,141,12.1,1.77,71.6,-0.24,0.087
+Wrong / missing items,62,5.3,1.08,95.2,-0.62,0.074
+Food quality,67,5.8,1.6,82.1,-0.31,0.049
+Offers / membership,85,7.3,2.0,67.1,-0.07,0.032
+App bugs / login / crash,36,3.1,1.58,77.8,-0.25,0.026
+Instamart / grocery,24,2.1,1.75,70.8,-0.21,0.014
