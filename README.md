@@ -1,9 +1,11 @@
 # 📡 Complaint Radar — "What should this company fix first?"
 
+**🔗 Live demo: https://complaint-radar-8xsgbewhv94vvhhrxmrcwx.streamlit.app/**
+
 An end-to-end data project that turns thousands of **real, live Google Play reviews** of a food-delivery app
 into a ranked, business-ready fix list.
 
-**Key finding (Swiggy, 1,164 reviews, Nov 2026):** average rating is 2.40★. Customer support, refund problems
+**Key finding (Swiggy, about 1,160 reviews, Nov 2026):** average rating is about 2.4★. Customer support, refund problems
 and late delivery are the top three drivers of low ratings. Fixing them could lift the average by roughly
 0.7★ (see dashboard for exact numbers; they change as new reviews arrive).
 
