@@ -1,41 +1,41 @@
 app,theme,recent_share_pct,baseline_share_pct,change_pp,z,recent_reviews,baseline_reviews,is_spike
-Blinkit,Wrong / missing items,6.3,3.7,2.6,3.12,1298,1380,False
-Zomato,Late / slow delivery,23.6,17.2,6.4,2.94,415,1350,True
-Blinkit,Customer support,11.0,8.6,2.5,2.15,1298,1380,False
-Zepto,App bugs / login / crash,13.3,9.2,4.1,2.0,225,2289,False
-Blinkit,Late / slow delivery,19.3,17.0,2.3,1.55,1298,1380,False
-Swiggy,Order cancelled by app,11.1,8.5,2.7,1.47,287,1859,False
-Zomato,Refund / money issues,11.8,9.6,2.3,1.33,415,1350,False
-Swiggy,Late / slow delivery,29.6,26.2,3.4,1.22,287,1859,False
-Zepto,High fees / pricing,15.6,12.8,2.8,1.19,225,2289,False
-Swiggy,Delivery partner conduct,16.7,14.3,2.4,1.08,287,1859,False
-Zomato,Order cancelled by app,5.5,4.4,1.1,0.92,415,1350,False
-Swiggy,Customer support,21.6,19.4,2.2,0.89,287,1859,False
-Zomato,High fees / pricing,14.2,12.7,1.6,0.82,415,1350,False
-Zomato,Food / product quality,13.5,12.2,1.3,0.68,415,1350,False
-Blinkit,Order cancelled by app,1.9,1.7,0.3,0.51,1298,1380,False
-Zepto,Late / slow delivery,19.1,18.3,0.8,0.3,225,2289,False
-Swiggy,Food / product quality,12.2,12.0,0.2,0.1,287,1859,False
-Swiggy,Offers / membership,7.3,7.2,0.2,0.1,287,1859,False
-Swiggy,Refund / money issues,13.2,13.2,0.0,0.0,287,1859,False
-Swiggy,Wrong / missing items,6.3,6.3,-0.0,-0.01,287,1859,False
-Blinkit,Delivery partner conduct,6.4,6.5,-0.1,-0.13,1298,1380,False
-Blinkit,Food / product quality,11.5,11.7,-0.2,-0.15,1298,1380,False
-Swiggy,High fees / pricing,11.8,12.3,-0.4,-0.2,287,1859,False
-Zepto,Food / product quality,16.9,17.6,-0.8,-0.29,225,2289,False
-Swiggy,App bugs / login / crash,5.9,6.5,-0.5,-0.34,287,1859,False
-Zepto,Refund / money issues,14.2,15.2,-0.9,-0.37,225,2289,False
-Zomato,Delivery partner conduct,9.2,9.9,-0.7,-0.42,415,1350,False
-Zepto,Customer support,20.0,21.7,-1.7,-0.58,225,2289,False
-Zepto,Wrong / missing items,9.3,10.7,-1.4,-0.64,225,2289,False
-Zomato,App bugs / login / crash,5.5,6.4,-0.9,-0.66,415,1350,False
-Zepto,Delivery partner conduct,10.7,12.3,-1.7,-0.72,225,2289,False
-Blinkit,Offers / membership,2.3,2.8,-0.4,-0.73,1298,1380,False
-Zomato,Wrong / missing items,4.6,5.6,-1.1,-0.83,415,1350,False
-Zepto,Offers / membership,2.7,3.8,-1.1,-0.86,225,2289,False
-Blinkit,Refund / money issues,6.3,7.2,-0.9,-0.95,1298,1380,False
-Zomato,Offers / membership,5.5,7.0,-1.4,-1.02,415,1350,False
-Zomato,Customer support,13.7,15.9,-2.1,-1.05,415,1350,False
-Zepto,Order cancelled by app,1.8,3.4,-1.6,-1.29,225,2289,False
-Blinkit,High fees / pricing,11.2,14.3,-3.2,-2.46,1298,1380,False
-Blinkit,App bugs / login / crash,8.0,11.4,-3.4,-2.93,1298,1380,False
+Blinkit,Wrong / missing items,6.1,3.9,2.2,2.98,1444,1868,False
+Zomato,High fees / pricing,16.8,12.3,4.5,2.44,440,1540,False
+Swiggy,Delivery partner conduct,17.6,14.4,3.2,1.49,312,1987,False
+Zomato,Refund / money issues,12.5,10.1,2.4,1.42,440,1540,False
+Swiggy,Late / slow delivery,29.2,26.2,3.0,1.11,312,1987,False
+Swiggy,Order cancelled by app,10.3,8.6,1.7,0.99,312,1987,False
+Zomato,Delivery partner conduct,11.4,9.8,1.6,0.95,440,1540,False
+Blinkit,Late / slow delivery,18.7,17.5,1.2,0.93,1444,1868,False
+Blinkit,Customer support,10.1,9.3,0.8,0.82,1444,1868,False
+Blinkit,Order cancelled by app,2.0,1.7,0.3,0.75,1444,1868,False
+Zepto,Late / slow delivery,19.7,17.9,1.8,0.72,269,2238,False
+Zepto,App bugs / login / crash,10.8,9.5,1.3,0.66,269,2238,False
+Blinkit,High fees / pricing,13.9,13.3,0.6,0.49,1444,1868,False
+Zomato,Late / slow delivery,19.3,18.3,1.0,0.48,440,1540,False
+Zepto,Order cancelled by app,3.7,3.3,0.4,0.35,269,2238,False
+Swiggy,Refund / money issues,14.1,13.4,0.7,0.34,312,1987,False
+Zepto,High fees / pricing,13.8,13.3,0.4,0.2,269,2238,False
+Zomato,Wrong / missing items,5.7,5.5,0.2,0.13,440,1540,False
+Swiggy,Customer support,19.6,19.6,-0.1,-0.03,312,1987,False
+Zepto,Delivery partner conduct,12.3,12.3,-0.1,-0.03,269,2238,False
+Swiggy,App bugs / login / crash,6.1,6.5,-0.5,-0.3,312,1987,False
+Zomato,Food / product quality,11.8,12.4,-0.6,-0.33,440,1540,False
+Blinkit,Refund / money issues,6.5,6.8,-0.3,-0.33,1444,1868,False
+Zomato,Customer support,15.2,15.9,-0.7,-0.35,440,1540,False
+Zepto,Food / product quality,16.0,17.1,-1.1,-0.45,269,2238,False
+Zepto,Refund / money issues,14.1,15.2,-1.1,-0.46,269,2238,False
+Zomato,App bugs / login / crash,5.7,6.3,-0.6,-0.47,440,1540,False
+Zomato,Order cancelled by app,4.3,4.9,-0.6,-0.48,440,1540,False
+Zomato,Offers / membership,5.9,6.6,-0.6,-0.49,440,1540,False
+Zepto,Offers / membership,3.0,3.6,-0.6,-0.51,269,2238,False
+Swiggy,High fees / pricing,11.2,12.3,-1.1,-0.53,312,1987,False
+Swiggy,Food / product quality,10.9,12.1,-1.2,-0.6,312,1987,False
+Swiggy,Offers / membership,6.1,7.1,-1.1,-0.68,312,1987,False
+Blinkit,Food / product quality,10.5,11.8,-1.3,-1.18,1444,1868,False
+Blinkit,Delivery partner conduct,5.7,6.7,-1.0,-1.19,1444,1868,False
+Zepto,Customer support,18.6,21.8,-3.2,-1.2,269,2238,False
+Blinkit,Offers / membership,2.1,2.8,-0.7,-1.25,1444,1868,False
+Blinkit,App bugs / login / crash,9.1,10.5,-1.4,-1.29,1444,1868,False
+Swiggy,Wrong / missing items,4.5,6.5,-2.0,-1.36,312,1987,False
+Zepto,Wrong / missing items,7.4,10.8,-3.3,-1.69,269,2238,False
